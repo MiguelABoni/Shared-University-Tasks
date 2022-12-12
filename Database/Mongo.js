@@ -1,13 +1,13 @@
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
-//const uri = `mongodb+srv://${process.env.DATABASE_USER}:${process.env.DATABASE_PASW}@${process.env.DATABASE_NAME}.y944eqm.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DATABASE_USER}:${process.env.DATABASE_PASW}@${process.env.DATABASE_NAME}.i2vipbr.mongodb.net/?retryWrites=true&w=majority`;
 
 class MongoDB {
 
     // Generar el cliente de MongoDB para aplicar el patrón Singleton
     constructor() {
 
-        //this.client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+        this.client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
         // Nombre base de datos
         this.name = 'shared-university-tasks';
