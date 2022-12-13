@@ -12,7 +12,7 @@ require('dotenv').config();
 
 // Passport config
 App.use(passport.initialize());
-//require('./Middleware/index.js');
+require('./Middleware/index.js');
 
 // Utilizar JSON en la API
 App.use(express.json());
@@ -23,6 +23,7 @@ App.get('/', (req, res) => {
 })
 
 // Routes
+App.use(require('./Routes/login.controller'));
 App.use(require('./Routes/Tasks.controller'));
 App.use(require('./Middleware/Response'));
 
