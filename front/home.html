@@ -58,7 +58,7 @@
 
 
 
-            fetch('http://localhost:3000/tasks/91efd358c05b0e53e99411473d7afb7fb5321361fc8ad6b2e79379888a7905ac@group.calendar.google.com', {
+            fetch('/tasks/91efd358c05b0e53e99411473d7afb7fb5321361fc8ad6b2e79379888a7905ac@group.calendar.google.com', {
                 method: 'GET',
                 headers: { Authorization: `Bearer ${AccessToken}` }
             }).then((data) => {
@@ -127,7 +127,7 @@
 
             if (event.target.textContent == "Crear nueva tarea") {
              
-                fetch('http://localhost:3000/new_task/91efd358c05b0e53e99411473d7afb7fb5321361fc8ad6b2e79379888a7905ac@group.calendar.google.com', {
+                fetch('/new_task/91efd358c05b0e53e99411473d7afb7fb5321361fc8ad6b2e79379888a7905ac@group.calendar.google.com', {
                     method: 'POST',
                     body: JSON.stringify(Event),
                     headers: { 
@@ -149,7 +149,7 @@
                 
                 let EventId = document.getElementById('task').getAttribute('data-id');
 
-                fetch(`http://localhost:3000/task/91efd358c05b0e53e99411473d7afb7fb5321361fc8ad6b2e79379888a7905ac@group.calendar.google.com/${EventId}`, {
+                fetch(`/task/91efd358c05b0e53e99411473d7afb7fb5321361fc8ad6b2e79379888a7905ac@group.calendar.google.com/${EventId}`, {
                     method: 'PUT',
                     body: JSON.stringify(Event),
                     headers: { 
@@ -175,7 +175,7 @@
             
             let eventId = event.target.id.split('_')[1];
 
-            fetch(`http://localhost:3000/task/91efd358c05b0e53e99411473d7afb7fb5321361fc8ad6b2e79379888a7905ac@group.calendar.google.com/${eventId}`, {
+            fetch(`/task/91efd358c05b0e53e99411473d7afb7fb5321361fc8ad6b2e79379888a7905ac@group.calendar.google.com/${eventId}`, {
                 method: 'DELETE',
                 headers: { Authorization: `Bearer ${AccessToken}` }
             }).then((data) => {
@@ -189,7 +189,7 @@
             
             let eventId = event.target.id.split('_')[1];
 
-            fetch(`http://localhost:3000/task/91efd358c05b0e53e99411473d7afb7fb5321361fc8ad6b2e79379888a7905ac@group.calendar.google.com/${eventId}`, {
+            fetch(`/task/91efd358c05b0e53e99411473d7afb7fb5321361fc8ad6b2e79379888a7905ac@group.calendar.google.com/${eventId}`, {
                 method: 'GET',
                 headers: { Authorization: `Bearer ${AccessToken}` }
             }).then((data) => {
