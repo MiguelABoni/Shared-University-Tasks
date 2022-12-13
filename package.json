@@ -1,7 +1,7 @@
 {
   "name": "shared-university-tasks",
   "version": "1.0.0",
-  "description": "Backend for creating, viewing, editing and deleting shared university tasks from a Google calendar.",
+  "description": "Frontend and Backend for creating, viewing, editing and deleting shared university tasks from a Google calendar.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
