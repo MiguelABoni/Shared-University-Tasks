@@ -7,6 +7,17 @@ class Tasks extends MongoDB {
         super();
     }
 
+    /** GET TASK */
+    async getTask(eventId) {
+        return this.connect().then((db) => {
+            try {
+                return db.collection('Tasks').findOne({ eventId: eventId });
+            } catch (err) {
+                return undefined;
+            }
+        });
+    }
+
     /** CREATE */
     async createTask(data) {
         return this.connect().then((db) => {
@@ -30,10 +41,10 @@ class Tasks extends MongoDB {
     }
 
     /** UPDATE */
-    async updateTask(_id, data) {
+    async updateTask(eventId, data) {
         return this.connect().then((db) => {
             try {
-                return db.collection('Tasks').updateOne({ _id: ObjectId(_id) }, { $set: { ...data } });
+                return db.collection('Tasks').updateOne({ eventId: eventId }, { $set: { ...data } });
             } catch (err) {
                 return undefined;
             }
@@ -41,10 +52,10 @@ class Tasks extends MongoDB {
     }
 
     /** DELETE */
-    async deleteTask(_id) {
+    async deleteTask(eventId) {
         return this.connect().then((db) => {
             try {
-                return db.collection('Tasks').deleteOne({ _id: ObjectId(_id) });
+                return db.collection('Tasks').deleteOne({ eventId: eventId });
             } catch (err) {
                 return undefined;
             }
