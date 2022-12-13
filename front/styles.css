@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.titlePrincipal {
+    text-align: center;
+    margin: 2rem 0 2rem 0;
+}
+
+.titleTechnologies {
+    text-align: center;
+    margin: 2rem 0 2rem 0;
+    color: #110c3b;
+}
+
+.platformsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 70%;
+    margin: 0 auto 2rem auto;
+}
+
+#googleCalendar {
+    width: 4rem;
+}
+
+#mongoDB {
+    width: 5rem;
+}
+
+#discord {
+    width: 4.5rem;
+}
+
+.mainContainer {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+
+.titleCreateTask, .titleTasks {
+    color: #110c3b;
+}
+
+.titleTasks {
+    margin: 0 0 1rem 0;
+}
+
+.tasksContainer {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+}
+
+label {
+    width: 90%;
+    margin: 1rem 0 .5rem 0;
+    font-weight: bold;
+    color: #35356e;
+}
+
+#start {
+    color: #636363;
+}
+
+#end {
+    color: #636363;
+    margin: 0 0 1.5rem 0;
+}
+
+input {
+    width: 90%;
+    padding: .5rem;
+    color: #000000;
+    border: 2px solid #35356e;
+    border-radius: .5rem;
+}
+
+input::placeholder {
+    color: #636363;
+}
+
+#submit_event {
+    width: 15rem;
+    height: 3rem;
+    margin-bottom: 1rem;
+    background-color: #110c3b;
+    font-size: 1rem;
+    border-width: 0;
+    border-radius: 15px;
+    color: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#submit_event:active {
+    position: relative;
+    top: 1px;
+}
+
+#submit_event:hover {
+    background-color: #312a68;
+}
+
+#events {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+}
+
+.taskCard {
+    width: 40%;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    border: 3px solid #35356e;
+    border-radius: 1rem;
+}
+
+.taskCard a {
+    outline: none;
+    text-decoration: none;
+}
+
+.taskCard a h4{
+    margin: 0 0 .5rem 0;
+    color: #7356f5;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.taskCard p {
+    font-size: .8rem;
+}
+
+.fechaInicio, .fechaFin {
+    margin-bottom: .5rem;
+}
+
+.textDescription {
+    margin: 1rem 0rem 1rem 0rem;
+}
+
+.btnContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.btn_editar {
+    width: 5rem;
+    background-color: #110c3b;
+}
+    
+.btn_eliminar {
+    width: 6rem;
+    background-color: #f85f6c;
+}
+
+.btn_editar, .btn_eliminar {
+    height: 2rem;
+    font-size: .8rem;
+    border-width: 0;
+    border-radius: 15px;
+    color: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn_editar:active, .btn_eliminar:active {
+    position: relative;
+    top: 1px;
+}
+
+.btn_editar:hover {
+    background-color: #312a68;
+}
+
+.btn_eliminar:hover {
+    background-color: #f07f89;
+}

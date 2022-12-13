@@ -3,6 +3,9 @@ const express = require('express');
 const passport = require('passport');
 const App = express();
 
+// Retornar el HTML
+App.use(express.static(__dirname + '/front'))
+
 // CORS
 const CORS = require('cors');
 App.use(CORS());

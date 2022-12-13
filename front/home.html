@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <title>Shared University Tasks</title>
+</head>
+<body>
+    <h1 class="titlePrincipal">Shared University Tasks</h1>
+    <div class="mainContainer">
+        <form name="createTask">
+            <h2 class="titleCreateTask">📋 Crear nueva tarea 📋</h2>
+            <label for="task">Título de la tarea</label>
+            <input type="text" name="task" id="task" placeholder="Nombre de la tarea">
+    
+            <label for="description">Descripción de la tarea</label>
+            <input type="text" name="description" id="description" placeholder="Descripción de la tarea">
+            
+            <label for="description">Fecha y hora de inicio</label>
+            <input type="datetime-local" name="start" id="start">
+    
+            <label for="description">Fecha y hora de final</label>
+            <input type="datetime-local" name="end" id="end">
+    
+            <button id="submit_event">Crear nueva tarea</button>
+        </form>
+        <div class="tasksContainer">
+            <h2 class="titleTasks">📅 Tareas 📅</h2>
+            <div id="events"></div>
+        </div>
+    </div>
+
+    <h2 class="titleTechnologies">Tecnologías utilizadas</h2>
+
+    <div class="platformsContainer">
+        <figure>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Calendar_icon_%282020%29.svg/768px-Google_Calendar_icon_%282020%29.svg.png" alt="GoogleCalendar" id="googleCalendar">
+        </figure>
+        <figure>
+            <img src="https://cyclr.com/wp-content/uploads/2022/03/ext-553.png" alt="MongoDB" id="mongoDB">
+        </figure>
+        <figure>
+            <img src="https://www.freepnglogos.com/uploads/discord-logo-png/discord-logo-logodownload-download-logotipos-1.png" alt="Discord" id="discord">
+        </figure>
+    </div>
+
+    <script>
+    
+        let Events = document.getElementById('events')
+        let btn_new_event = document.getElementById('submit_event')
+
+        let AccessToken = document.cookie.split('=')[1];
+        
+        function renderEvents() {
+
+
+
+            fetch('http://localhost:3000/tasks/91efd358c05b0e53e99411473d7afb7fb5321361fc8ad6b2e79379888a7905ac@group.calendar.google.com', {
+                method: 'GET',
+                headers: { Authorization: `Bearer ${AccessToken}` }
+            }).then((data) => {
+                return data.json();
+            }).then((result) => {
+                
+                if (result.result.items.length == 0) {
+                    Events.innerHTML = `<h3>No hay eventos creados</h3>`   
+                } else {
+                    console.log(result.result.items);
+                    
+                    Events.innerHTML = "";
+
+                    result.result.items.map((event) => {
+                        let HTML_Event = document.createElement('section');
+                        HTML_Event.classList.add('taskCard');
+
+                        let FechaInicio = event.start.dateTime.split('T')[0];
+                        let FechaFin = event.end.dateTime.split('T')[0];
+                        let HoraInicio = event.start.dateTime.split('T')[1].split('-')[0];
+                        let HoraFin = event.end.dateTime.split('T')[1].split('-')[0];
+
+                        HTML_Event.innerHTML = `
+                            <a href="${event.htmlLink}" target="_blank">    
+                                <h4 id="${event.id}">${event.summary}</h4>
+                                </a>
+                            <p class="textDescription">${event.description}</p>
+                            <p class="fechaInicio"> 📅 FECHA INICIO: ${FechaInicio} ~ ⌚ ${HoraInicio}</p>
+                            <p class="fechaFin"> 📅 FECHA FIN: ${FechaFin} ~ ⌚ ${HoraFin}</p>
+                            <div class="btnContainer">
+                                <button id="edit_${event.id}" class="btn_editar">✏️ Editar</button>
+                                <button id="delete_${event.id}" class="btn_eliminar">🗑️ Eliminar</button>    
+                            </div>
+                        `
+                        
+                        Events.append(HTML_Event);
+                        
+                        let deleteBtn = document.getElementById(`delete_${event.id}`);
+                        deleteBtn.addEventListener('click', DeleleEvent)
+                        
+                        let updateBtn = document.getElementById(`edit_${event.id}`);
+                        updateBtn.addEventListener('click', UpdateEvent)
+                    })
+
+                }
+            })
+        }
+        renderEvents();
+
+        btn_new_event.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            let Event = {
+                "summary": document.getElementById('task').value,
+                "description": document.getElementById('description').value,
+                "start": {
+                    "dateTime": document.getElementById('start').value+':00-05:00',
+                    "timeZone": "America/Bogota"
+                },
+                "end": {
+                    "dateTime": document.getElementById('end').value+':00-05:00',
+                    "timeZone": "America/Bogota"
+                },
+                "colorId": "1"
+            }
+
+            if (event.target.textContent == "Crear nueva tarea") {
+             
+                fetch('http://localhost:3000/new_task/91efd358c05b0e53e99411473d7afb7fb5321361fc8ad6b2e79379888a7905ac@group.calendar.google.com', {
+                    method: 'POST',
+                    body: JSON.stringify(Event),
+                    headers: { 
+                        Authorization: `Bearer ${AccessToken}`,
+                        'Content-type': 'application/json; charset=UTF-8'
+                    }
+                }).then((data) => {
+                    return data.json();
+                }).then((result) => {
+
+                    document.getElementById('task').value = "";
+                    document.getElementById('description').value = "";
+                    document.getElementById('start').value = "";
+                    document.getElementById('end').value = "";
+                    renderEvents();
+                })
+
+            } else if (event.target.textContent == "Actualizar tarea") {
+                
+                let EventId = document.getElementById('task').getAttribute('data-id');
+
+                fetch(`http://localhost:3000/task/91efd358c05b0e53e99411473d7afb7fb5321361fc8ad6b2e79379888a7905ac@group.calendar.google.com/${EventId}`, {
+                    method: 'PUT',
+                    body: JSON.stringify(Event),
+                    headers: { 
+                        Authorization: `Bearer ${AccessToken}`,
+                        'Content-type': 'application/json; charset=UTF-8'
+                    }
+                }).then((data) => {
+                    return data.json();
+                }).then((result) => {
+                    document.getElementById('task').value = "";
+                    document.getElementById('description').value = "";
+                    document.getElementById('start').value = "";
+                    document.getElementById('end').value = "";
+                    btn_new_event.innerText = "Crear nueva tarea"
+                    renderEvents();
+                })
+
+            }
+
+        })
+
+        function DeleleEvent(event) {
+            
+            let eventId = event.target.id.split('_')[1];
+
+            fetch(`http://localhost:3000/task/91efd358c05b0e53e99411473d7afb7fb5321361fc8ad6b2e79379888a7905ac@group.calendar.google.com/${eventId}`, {
+                method: 'DELETE',
+                headers: { Authorization: `Bearer ${AccessToken}` }
+            }).then((data) => {
+                return data.json();
+            }).then((result) => {
+                renderEvents();
+            })
+        }
+
+        function UpdateEvent(event) {
+            
+            let eventId = event.target.id.split('_')[1];
+
+            fetch(`http://localhost:3000/task/91efd358c05b0e53e99411473d7afb7fb5321361fc8ad6b2e79379888a7905ac@group.calendar.google.com/${eventId}`, {
+                method: 'GET',
+                headers: { Authorization: `Bearer ${AccessToken}` }
+            }).then((data) => {
+                return data.json();
+            }).then((result) => {
+                
+                document.getElementById('task').value = result.result.summary
+                document.getElementById('task').setAttribute('data-id', eventId)
+                document.getElementById('description').value = result.result.description
+                document.getElementById('start').value = result.result.start.dateTime.substring(0, result.result.start.dateTime.length-9)
+                document.getElementById('end').value = result.result.end.dateTime.substring(0, result.result.start.dateTime.length-9)
+
+                btn_new_event.innerText = "Actualizar tarea"
+            })
+
+        }
+
+    </script>
+
+</body>
+</html>

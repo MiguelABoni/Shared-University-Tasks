@@ -25,7 +25,7 @@ UsersRouter.get('/auth/google/callback',
     const UserGoogle = request.user;
 
     response.cookie('GoogleToken', UserGoogle.token);
-    response.json(UserGoogle);
+    response.redirect('/home.html');
   }
 );
 

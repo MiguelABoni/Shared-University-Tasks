@@ -8,6 +8,22 @@ const fetch = require('node-fetch');
 
 const passport = require('passport');
 
+/** GET TASK */
+TasksRouter.get('/task/:calendarId/:eventId', async (req, res, next) => {
+    
+    const AccessToken = req.headers.authorization.substring(7, req.headers.authorization.length);
+
+    const response = await fetch(`https://www.googleapis.com/calendar/v3/calendars/${req.params.calendarId}/events/${req.params.eventId}`, {
+        method: 'GET',
+        headers: { Authorization: `Bearer ${AccessToken}` }
+    })
+    const data = await response.json();
+
+    req.result = data;
+    req.message = "INFO DE UN EVENTO";
+    next();
+})
+
 /** LIST CALENDARS */
 TasksRouter.get('/calendars', async (req, res) => {
 
