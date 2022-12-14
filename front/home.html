@@ -68,7 +68,6 @@
                 if (result.result.items.length == 0) {
                     Events.innerHTML = `<h3>No hay eventos creados</h3>`   
                 } else {
-                    console.log(result.result.items);
                     
                     Events.innerHTML = "";
 
@@ -76,10 +75,24 @@
                         let HTML_Event = document.createElement('section');
                         HTML_Event.classList.add('taskCard');
 
-                        let FechaInicio = event.start.dateTime.split('T')[0];
-                        let FechaFin = event.end.dateTime.split('T')[0];
-                        let HoraInicio = event.start.dateTime.split('T')[1].split('-')[0];
-                        let HoraFin = event.end.dateTime.split('T')[1].split('-')[0];
+                        let FechaInicio;
+                        let FechaFin;
+                        let HoraInicio;
+                        let HoraFin;
+
+                        if (event.start.dateTime) {
+                            
+                            FechaInicio = event.start.dateTime.split('T')[0];
+                            FechaFin = event.end.dateTime.split('T')[0];
+                            HoraInicio = event.start.dateTime.split('T')[1].split('-')[0];
+                            HoraFin = event.end.dateTime.split('T')[1].split('-')[0];
+                        } else {
+                            FechaInicio = event.start.date;
+                            FechaFin = event.end.date;
+                            HoraInicio = "00:00:00";
+                            HoraFin = "24:00:00";
+                        }
+
 
                         HTML_Event.innerHTML = `
                             <a href="${event.htmlLink}" target="_blank">    
